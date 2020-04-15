@@ -75,4 +75,43 @@ def formatWith0DP(value):
 	return "{:.0f}".format(value)
 
 
+@client.command(
+		aliases=['v']
+)
+async def victory():
+	r = requests.get(wom_url, headers=header)
+	df = pd.read_html(r.text)
+	df = df[0]  # why?
+	
+	brazil = totalDeathByCounty(df, 'Brazil')
+	india = totalDeathByCounty(df, 'India')
+	italy = totalDeathByCounty(df, 'Italy')
+	china = totalDeathByCounty(df, 'China')
+	spain = totalDeathByCounty(df, 'Spain')
+	turkey = totalDeathByCounty(df, 'Turkey')
+
+	mouse_total = china + italy + spain
+	cong_total = india + italy + brazil
+	oli_total = brazil + china + turkey
+
+	my_list = [(cong_total, 'Cong'), (mouse_total, 'Mouse'), (oli_total, 'Oli')]
+	my_list.sort(reverse= True)
+
+	embed = discord.Embed(
+			colour= discord.Colour.blue()
+		)
+
+	embed.set_author(name= 'CoronaUK', icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
+	embed.set_thumbnail(url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
+	embed.add_field(name= '1st', value= my_list[0][1] + '\n' + str(my_list[0][0]), inline=True)
+	embed.add_field(name= '2nd', value= my_list[1][1] + '\n' + str(my_list[1][0]), inline=True)
+	embed.add_field(name= 'Shitter', value= my_list[2][1] + '\n' + str(my_list[2][0]), inline=True)
+	embed.set_footer(text= 'Data from Worldometers')
+
+	await client.say(embed=embed)
+
+def totalDeathByCounty(df, country):
+	return df[df['Country,Other'].str.match(country, na=False)].values[0][3]
+
+
 client.run(TOKEN)
