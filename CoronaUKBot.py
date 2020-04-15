@@ -59,14 +59,14 @@ async def deathcount():
 	total_deaths= df_loc['TotalDeaths'].values[0]
 	new_deaths= df_loc['NewDeaths'].values[0]
 
-	embed.set_author(name= 'Corona UK', icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
+	embed.set_author(name= 'CoronaUK', icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 	embed.set_thumbnail(url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 	embed.add_field(name= 'Total Cases', value=formatWith0DP(total_cases), inline=True)
 	embed.add_field(name= 'New Cases', value=str(new_cases), inline=True)
 	embed.add_field(name= '_ _', value='_ _', inline=True)
 	embed.add_field(name= 'Total Deaths', value=formatWith0DP(total_deaths), inline=True)
 	embed.add_field(name= 'New Deaths', value=str(new_deaths), inline=True)
-	embed.add_field(name= 'Mortality Rate', value="{:.2f}%".format(total_deaths/total_cases), inline=True)
+	embed.add_field(name= 'Mortality Rate', value="{:.2f}%".format((total_deaths/total_cases)*100), inline=True)
 	embed.set_footer(text= 'Data from Worldometers')
 
 	await client.say(embed=embed)
