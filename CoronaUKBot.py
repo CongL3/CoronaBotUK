@@ -41,6 +41,12 @@ client = Bot(command_prefix=BOT_PREFIX)
 # 	squared_value = int(number) * int(number)
 # 	await client.say(str(number) + " squared is " + str(squared_value))
 
+def formatWith0DP(value):
+	return "{:.0f}".format(value)
+
+def totalDeathByCounty(df, country):
+	return df[df['Country,Other'].str.match(country, na=False)].values[0][3]
+
 @client.command(
 		aliases=['uk', 'update', 'data']
 )
@@ -71,10 +77,6 @@ async def deathcount():
 
 	await client.say(embed=embed)
 
-def formatWith0DP(value):
-	return "{:.0f}".format(value)
-
-
 @client.command(
 		aliases=['v']
 )
@@ -103,15 +105,12 @@ async def victory():
 
 	embed.set_author(name= 'CoronaUK', icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 	embed.set_thumbnail(url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
-	embed.add_field(name= '1st', value= my_list[0][1] + '\n' + str(my_list[0][0]), inline=True)
-	embed.add_field(name= '2nd', value= my_list[1][1] + '\n' + str(my_list[1][0]), inline=True)
-	embed.add_field(name= 'Shitter', value= my_list[2][1] + '\n' + str(my_list[2][0]), inline=True)
+	embed.add_field(name= '1st _ _ _ _ _ _ _ _ _ _ _ _', value= my_list[0][1] + '\n' + formatWith0DP(my_list[0][0]), inline=True)
+	embed.add_field(name= '2nd _ _ _ _ _ _ _ _ _ _', value= my_list[1][1] + '\n' + formatWith0DP(my_list[1][0]), inline=True)
+	embed.add_field(name= 'Shitter', value= my_list[2][1] + '\n' + formatWith0DP(my_list[2][0]), inline=True)
 	embed.set_footer(text= 'Data from Worldometers')
 
 	await client.say(embed=embed)
-
-def totalDeathByCounty(df, country):
-	return df[df['Country,Other'].str.match(country, na=False)].values[0][3]
 
 
 client.run(TOKEN)
