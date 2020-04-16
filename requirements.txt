@@ -3,3 +3,4 @@ requests==2.23.0
 pandas==1.0.3
 discord.py==0.16.12
 lxml==4.5.0
+bs4==0.0.1
