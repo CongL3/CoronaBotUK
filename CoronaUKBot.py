@@ -29,12 +29,12 @@ def totalDeathByCounty(df, country):
 	return df[df['Country,Other'].str.match(country, na=False)].values[0][3]
 
 @client.command(
-		aliases=['uk', 'update', 'data'],
+		aliases=['uk', 'Uk', 'UK', 'uK'],
 		description="Shows the current status of corona in the UK.",
 		brief="Corona stats for the UK"
 )
 async def deathcount():
-	await client.say(embed=embedFromCountry('UK'))
+	await client.say(embed=embedFromCountry('uk', 'uk'))
 
 @client.command(
 		aliases=['c',],
@@ -42,20 +42,32 @@ async def deathcount():
 		brief="Corona stats for the UK",
 		pass_context=True
 )
-async def deathcountWithArg(ctx, arg):
+async def deathcountWithArg(ctx, *args):
 
-	await client.say(embed=embedFromCountry(arg))
+	formatted_country=''
+	country=''
+	for word in args:
+		word = word.lower()
+		formatted_country+=word
+		country+=word+' '
+
+	country.strip()
+
+	if 'korea' in formatted_country:
+		formatted_country='s.korea'
+
+	await client.say(embed=embedFromCountry(formatted_country, country))
 
 
 def isNaN(string):
     return string != string
 
-def embedFromCountry(country):
+def embedFromCountry(formatted_country, country):
 	r = requests.get(wom_url, headers=header)
 	df = pd.read_html(r.text)
 	df = df[0]  # why?
-	df_loc = df[df['Country,Other'].str.lower().str.match(country, na=False)]
-
+	df_loc = df[df['Country,Other'].str.lower().replace(' ','', regex=True).str.match(formatted_country, na=False)]
+	
 	if df_loc.size == 0 : 
 		embed = discord.Embed(
 			colour= discord.Colour.red()
@@ -63,7 +75,7 @@ def embedFromCountry(country):
 
 		embed.set_author(name= 'CoronaUK', icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 		embed.set_thumbnail(url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
-		embed.add_field(name= 'Nigga can you spell?', value=country + ' was not found', inline=True)
+		embed.add_field(name= 'Nigga can you spell?', value='_' + country +'_' + ' was not found', inline=True)
 		return embed
 	else :
 
@@ -85,11 +97,10 @@ def embedFromCountry(country):
 		else:
 			new_deaths= df_loc['NewDeaths'].values[0]
 
-
 		soup = BeautifulSoup(r.content, 'html.parser')
 		last_updated = soup.findAll('div',attrs={"style" : "font-size:13px; color:#999; margin-top:5px; text-align:center"})[0].text
 
-		embed.set_author(name= 'CoronaUK | Stats for ' + country, icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
+		embed.set_author(name= 'CoronaUK | Stats for ' + df_loc['Country,Other'].values[0], icon_url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 		embed.set_thumbnail(url= 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png')
 		embed.add_field(name= 'Total Cases', value=formatWith0DP(total_cases), inline=True)
 		embed.add_field(name= 'New Cases', value=str(new_cases), inline=True)
