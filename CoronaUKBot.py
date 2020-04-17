@@ -30,20 +30,22 @@ def totalDeathByCounty(df, country):
 	return df[df['Country,Other'].str.match(country, na=False)].values[0][3]
 
 @client.command(
+		name='uk_stats',
 		aliases=['uk', 'Uk', 'UK', 'uK'],
 		description="Shows the current status of corona in the UK.",
 		brief="Corona stats for the UK"
 )
-async def deathcount():
+async def uk_stats():
 	await client.say(embed=embedFromCountry('uk', 'uk'))
 
 @client.command(
+		name='stats',
 		aliases=['c'],
 		description="View stats for the named country: !c [country]",
 		brief="Corona stats for the named country",
 		pass_context=True
 )
-async def deathcountWithArg(ctx, *args):
+async def stats(ctx, *args):
 
 	formatted_country=''
 	input_country=''
