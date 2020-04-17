@@ -6,6 +6,7 @@ import requests
 import pandas as pd
 import discord
 import math
+import os
 
 from bs4 import BeautifulSoup
 from discord.ext.commands import Bot
