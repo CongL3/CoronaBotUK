@@ -7,11 +7,12 @@ import pandas as pd
 import discord
 import math
 
+import config as cfg
 from bs4 import BeautifulSoup
 from discord.ext.commands import Bot
 
 BOT_PREFIX = ("?", "!")
-TOKEN = 'NzAwMDc2MTc3MDExOTAwNDM4.Xpdq2w.F0fcZcURcXvQ6cAR7obaEcmoN1g'
+TOKEN = cfg.token
 CORONA_THUMBNAIL_URL = 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png'
 
 WOM_HEADER = {
