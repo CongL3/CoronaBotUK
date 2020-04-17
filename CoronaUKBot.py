@@ -12,7 +12,8 @@ from bs4 import BeautifulSoup
 from discord.ext.commands import Bot
 
 BOT_PREFIX = ("?", "!")
-TOKEN = os.getenv('TOKEN')
+
+TOKEN = os.getenv('DISCORD_TOKEN_CORONA')
 CORONA_THUMBNAIL_URL = 'https://cdn.discordapp.com/app-icons/700076177011900438/4a19422eb9880e8778723e0823d34416.png'
 
 WOM_HEADER = {
