@@ -3,7 +3,7 @@ A simple Discord bot that shows Corona statistics
 
 
 Example:
-![Bot Example]:()
+![Bot Example]:(Example.png)
 
 Bot prefix !
 
