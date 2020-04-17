@@ -2,9 +2,8 @@
 A simple Discord bot that shows Corona statistics 
 
 
-Example :
-![Image of Yaktocat](Example.png)
-
+Example:
+![Bot Example]:()
 
 Bot prefix !
 
