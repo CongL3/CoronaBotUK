@@ -10,6 +10,7 @@ import os
 
 from bs4 import BeautifulSoup
 from discord.ext.commands import Bot
+from discord import Emoji
 
 BOT_PREFIX = ("?", "!")
 
@@ -158,7 +159,7 @@ async def victory():
 
 @client.command(
 		name='Emojis',
-		aliases=['em'],
+		aliases=['em', 'emojis'],
 		description="Shows all custom emojis on the server using get_all_emojis function",
 		brief="All custom emojis",
 		pass_context=True
@@ -166,8 +167,16 @@ async def victory():
 async def showAll(ctx):
 	arr = client.get_all_emojis()
 	output = ""
+
+	server = ctx.message.server
+	
 	for emoji in arr:
-		output += str(emoji)
+		if emoji.server == server:
+			output += str(emoji)
+
+	print(str(output))
+
+
 	await client.say(output)
 
 
