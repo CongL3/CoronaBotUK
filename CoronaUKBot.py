@@ -156,5 +156,19 @@ async def victory():
 
 	await client.say(embed=embed)
 
+@client.command(
+		name='Emojis',
+		aliases=['emojis'],
+		description="Shows all custom emojis on the server using get_all_emojis function",
+		brief="All custom emojis",
+		pass_context=True
+)
+async def showAll(ctx, *args):
+	arr = client.get_all_emojis()
+	output = ""
+	for emoji in arr:
+		output += str(emoji)
+	await client.say(output)
+
 
 client.run(TOKEN)
