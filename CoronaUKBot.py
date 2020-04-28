@@ -158,12 +158,12 @@ async def victory():
 
 @client.command(
 		name='Emojis',
-		aliases=['emojis'],
+		aliases=['em'],
 		description="Shows all custom emojis on the server using get_all_emojis function",
 		brief="All custom emojis",
 		pass_context=True
 )
-async def showAll(ctx, *args):
+async def showAll(ctx):
 	arr = client.get_all_emojis()
 	output = ""
 	for emoji in arr:
