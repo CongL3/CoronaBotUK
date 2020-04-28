@@ -189,7 +189,7 @@ async def showAll(ctx):
 	output = ""
 	guild = ctx.message.guild
 
-	pluckList =	random.choices(range(1, 12), weights=(0.59873, 0.10264, 0.08553, 0.0532, 0.05132, 0.06843, 0.01711, 0.01711, 0.0391, 0.0260, 0.0130))
+	pluckList =	random.choices(range(1, 13), weights=(0.54873, 0.10264, 0.08553, 0.0532, 0.05132, 0.06843, 0.01711, 0.01711, 0.0391, 0.0260, 0.0130, 0.05))
 	pluck = pluckList[0]
 
 	emoji_id = 0
@@ -216,10 +216,36 @@ async def showAll(ctx):
 		emoji_id = 230179410219630593
 	elif pluck == 11:
 		emoji_id = 230186643061997568
+	elif pluck == 12:
+		headList = [
+		Head("Andeh", 703510832558112768, []),
+		Head("Calz", 703510833019355177, []),
+		Head("cloud", 703510833207967765, []),
+		Head("miller", 703510840246140990, []),
+		Head("ixis", 703510848542343249, ["eyy its a nigga"]),
+		Head("kj", 703510850778169374, []),
+		Head("Cong", 703510851050799135, []),
+		Head("XD", 703510851197337621, []),
+		Head("Mike", 703523963963179009, []),
+		Head("Keith", 703523964089139210, []),
+		Head("siri", 703581178099400755, [])
+		]		
+		head = headList[random.randint(0, 10)]
+		await ctx.send("Woah nigga you found a head")
+		emoji_id = head.head_id
+		if len(head.messages) > 0:
+			await ctx.send(head.messages[random.randint(0, len(head.messages))])
 
 	emoji = client.get_emoji(emoji_id)
 	await ctx.send(emoji)
 
+class Head(object):
+
+	def __init__(self, name, head_id, messages):
+		self.name = name
+		self.head_id = head_id
+		self.messages = messages
 
 
 client.run(TOKEN)
+
