@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from discord.ext.commands import Bot
 from discord import Emoji
 
+
+# Guard guild id : 225357490655723520
 BOT_PREFIX = ("?", "!")
 
 TOKEN = os.getenv('DISCORD_TOKEN_CORONA')
@@ -36,10 +38,11 @@ def totalDeathByCounty(df, country):
 		name='uk_stats',
 		aliases=['uk', 'Uk', 'UK', 'uK'],
 		description="Shows the current status of corona in the UK.",
-		brief="Corona stats for the UK"
+		brief="Corona stats for the UK",
+		pass_context=True
 )
-async def uk_stats():
-	await client.say(embed=embedFromCountry('uk', 'uk'))
+async def uk_stats(ctx):
+	await ctx.send(embed=embedFromCountry('uk', 'uk'))
 
 @client.command(
 		name='stats',
@@ -63,7 +66,7 @@ async def stats(ctx, *args):
 	if 'korea' in formatted_country:
 		formatted_country='s.korea'
 
-	await client.say(embed=embedFromCountry(formatted_country, input_country))
+	await ctx.send(embed=embedFromCountry(formatted_country, input_country))
 
 
 def isNaN(string):
@@ -160,24 +163,63 @@ async def victory():
 @client.command(
 		name='Emojis',
 		aliases=['em', 'emojis'],
-		description="Shows all custom emojis on the server using get_all_emojis function",
+		description="Shows all custom emojis on the server using emojis function",
 		brief="All custom emojis",
 		pass_context=True
 )
 async def showAll(ctx):
-	arr = client.get_all_emojis()
 	output = ""
+	guild = ctx.message.guild
 
-	server = ctx.message.server
-	
-	for emoji in arr:
-		if emoji.server == server:
+	for emoji in client.emojis:
+		if emoji.guild == guild:
 			output += str(emoji)
 
 	print(str(output))
+	await ctx.send(output)
 
+@client.command(
+		name='pluck',
+		aliases=['p'],
+		description="Peaches pluck",
+		brief="Peaches pluck",
+		pass_context=True
+)
+async def showAll(ctx):
+	output = ""
+	guild = ctx.message.guild
 
-	await client.say(output)
+	pluckList =	random.choices(range(1, 12), weights=(0.59873, 0.10264, 0.08553, 0.0532, 0.05132, 0.06843, 0.01711, 0.01711, 0.0391, 0.0260, 0.0130))
+	pluck = pluckList[0]
+
+	emoji_id = 0
+
+	if pluck == 1: #Normal
+		emoji_id = 230186896406347776
+	elif pluck == 2: #Eyebrow Eyes
+		emoji_id = 230187217618862080
+	elif pluck == 3: #Line eyes
+		emoji_id = 230187066544095232
+	elif pluck == 4: #Circle
+		emoji_id = 230187161045958656
+	elif pluck == 5: #Carrot Eyes
+		emoji_id = 230187004938289153
+	elif pluck == 6: #Wink
+		emoji_id = 230187297839120384
+	elif pluck == 7: #Dot eyes
+		emoji_id = 230187388469641216
+	elif pluck == 8: #Stich Face
+		emoji_id = 230187504828022784
+	elif pluck == 9:
+		emoji_id = 230186708992393216
+	elif pluck == 10:
+		emoji_id = 230179410219630593
+	elif pluck == 11:
+		emoji_id = 230186643061997568
+
+	emoji = client.get_emoji(emoji_id)
+	await ctx.send(emoji)
+
 
 
 client.run(TOKEN)
