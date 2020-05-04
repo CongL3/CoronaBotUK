@@ -126,9 +126,10 @@ def embedFromCountry(formatted_country, input_country):
 @client.command(
 		aliases=['v'],
 		description="Wager for highest Corona death count by the end of 2020\nCong: Brazil, India, Italy\nOli: Brazil, China, Turkey\nMouse: China, Italy, Spain",
-		brief="Victory"
+		brief="Victory",
+		pass_context=True
 )
-async def victory():
+async def victory(ctx):
 	r = requests.get(WOM_URL, headers=WOM_HEADER)
 	df = pd.read_html(r.text)
 	df = df[0]  # why?
@@ -158,7 +159,7 @@ async def victory():
 	embed.add_field(name= 'Shitter', value= my_list[2][1] + '\n' + formatWith0DP(my_list[2][0]), inline=True)
 	embed.set_footer(text= last_updated_value(r) + ' (Worldometers)')
 
-	await client.say(embed=embed)
+	await ctx.send(embed=embed)
 
 @client.command(
 		name='Emojis',
@@ -231,7 +232,7 @@ async def showAll(ctx):
 		Head("Mouse", 704624185280036924, []),
 		Head("siri", 703581178099400755, [])
 		]		
-		head = headList[random.randint(0, 10)]
+		head = headList[random.randint(0, len(headList))]
 		await ctx.send("Woah nigga you found a head")
 		emoji_id = head.head_id
 		if len(head.messages) > 0:
